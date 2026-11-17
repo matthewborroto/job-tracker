@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Job Match{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Job Match</h1>
+</div>
+
+<form method="post" class="card form">
+    <label>Your skills <small class="muted">comma-separated</small>
+        <input type="text" name="skills" value="{{ skills_input }}" placeholder="Python, SQL, Flask" autofocus>
+    </label>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Find Matching Jobs</button>
+    </div>
+</form>
+
+{% if results is not none %}
+<section class="card">
+    <h2>Matching Jobs</h2>
+    <p class="muted">Your skills: {% for s in user_skills %}<span class="chip chip-strong">{{ s }}</span>{% endfor %}</p>
+
+    {% if results %}
+    <ol class="match-list">
+    {% for r in results %}
+        <li class="match">
+            <div class="match-head">
+                <div>
+                    <a class="strong" href="{{ url_for('job_detail', job_id=r.job.job_id) }}">{{ r.job.job_title }}</a>
+                    <span class="muted">at {{ r.job.company_name }}</span>
+                    {% if r.job.job_type %}<span class="muted">· {{ r.job.job_type }}</span>{% endif %}
+                </div>
+                <div class="match-score {{ 'score-high' if r.percent >= 75 else 'score-mid' if r.percent >= 40 else 'score-low' }}">
+                    {{ r.percent }}% <small>({{ r.matched|length }}/{{ r.required_total }} skills)</small>
+                </div>
+            </div>
+            <div class="bar"><span class="bar-fill {{ 'bar-high' if r.percent >= 75 else 'bar-mid' if r.percent >= 40 else 'bar-low' }}" style="width: {{ r.percent }}%"></span></div>
+            <div class="match-skills">
+                {% if r.matched %}<span class="label">Matched:</span>{% for s in r.matched %}<span class="chip chip-ok">{{ s }}</span>{% endfor %}{% endif %}
+                {% if r.missing %}<span class="label">Missing:</span>{% for s in r.missing %}<span class="chip chip-miss">{{ s }}</span>{% endfor %}{% endif %}
+                {% if r.preferred_matched %}<span class="label">Preferred bonus:</span>{% for s in r.preferred_matched %}<span class="chip">{{ s }}</span>{% endfor %}{% endif %}
+            </div>
+        </li>
+    {% endfor %}
+    </ol>
+    {% else %}
+        <p class="muted">No jobs have required skills recorded yet. Add requirements to a job to see it here.</p>
+    {% endif %}
+</section>
+{% endif %}
+{% endblock %}
