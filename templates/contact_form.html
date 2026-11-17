@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} Contact{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>{{ action }} Contact</h1>
+</div>
+
+<form method="post" class="card form">
+    <div class="form-grid">
+        <label>Contact name <span class="req">*</span>
+            <input type="text" name="contact_name" value="{{ contact.contact_name or '' }}" required maxlength="100">
+        </label>
+        <label>Company <span class="req">*</span>
+            <select name="company_id" required>
+                <option value="">— choose a company —</option>
+                {% for c in companies %}
+                    <option value="{{ c.company_id }}" {{ 'selected' if contact.company_id == c.company_id }}>{{ c.company_name }}</option>
+                {% endfor %}
+            </select>
+            {% if not companies %}<small class="muted">No companies yet — <a href="{{ url_for('add_company') }}">add one first</a>.</small>{% endif %}
+        </label>
+        <label>Title
+            <input type="text" name="title" value="{{ contact.title or '' }}" maxlength="100" placeholder="Recruiter, Engineering Manager…">
+        </label>
+        <label>Email
+            <input type="email" name="email" value="{{ contact.email or '' }}" maxlength="100">
+        </label>
+        <label>Phone
+            <input type="tel" name="phone" value="{{ contact.phone or '' }}" maxlength="20">
+        </label>
+        <label>LinkedIn URL
+            <input type="url" name="linkedin_url" value="{{ contact.linkedin_url or '' }}" maxlength="200" placeholder="https://linkedin.com/in/…">
+        </label>
+        <label class="span-2">Notes
+            <textarea name="notes" rows="4">{{ contact.notes or '' }}</textarea>
+        </label>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ 'Save Changes' if action == 'Edit' else 'Add Contact' }}</button>
+        <a class="btn" href="{{ url_for('contact_detail', contact_id=contact.contact_id) if contact.contact_id else url_for('contacts') }}">Cancel</a>
+    </div>
+</form>
+{% endblock %}
