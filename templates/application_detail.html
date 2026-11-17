@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Application · {{ application.job_title }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="crumbs"><a href="{{ url_for('applications') }}">Applications</a> / #{{ application.application_id }}</p>
+        <h1>{{ application.job_title }}</h1>
+        <p class="subtitle">at <a href="{{ url_for('company_detail', company_id=application.company_id) }}">{{ application.company_name }}</a>
+            · <span class="badge badge-{{ application.status|lower }}">{{ application.status }}</span></p>
+    </div>
+    <div class="actions">
+        <a class="btn" href="{{ url_for('edit_application', application_id=application.application_id) }}">Edit</a>
+        <form method="post" action="{{ url_for('delete_application', application_id=application.application_id) }}"
+              data-confirm="Delete this application?">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+</div>
+
+<div class="two-col">
+    <section class="card">
+        <h2>Application</h2>
+        <dl class="details">
+            <dt>Job</dt><dd><a href="{{ url_for('job_detail', job_id=application.job_id) }}">{{ application.job_title }}</a></dd>
+            <dt>Date applied</dt><dd>{{ application.application_date }}</dd>
+            <dt>Status</dt><dd><span class="badge badge-{{ application.status|lower }}">{{ application.status }}</span></dd>
+            <dt>Resume version</dt><dd>{{ application.resume_version or '—' }}</dd>
+            <dt>Cover letter sent</dt><dd>{{ 'Yes' if application.cover_letter_sent else 'No' }}</dd>
+        </dl>
+    </section>
+
+    <section class="card">
+        <h2>Interview Notes</h2>
+        {% set iv = application.interview_data %}
+        {% if iv %}
+        <dl class="details">
+            <dt>Rounds</dt><dd>{{ iv.interview_rounds if iv.interview_rounds is not none else '—' }}</dd>
+            <dt>Interviewers</dt>
+            <dd>{% for p in iv.interviewers or [] %}<span class="chip">{{ p }}</span>{% else %}—{% endfor %}</dd>
+            {% if iv.technical_questions %}
+            <dt>Technical questions</dt>
+            <dd>{% for q in iv.technical_questions %}<span class="chip">{{ q }}</span>{% endfor %}</dd>
+            {% endif %}
+            <dt>Feedback</dt><dd class="prewrap">{{ iv.feedback or '—' }}</dd>
+            <dt>Next steps</dt><dd>{{ iv.next_steps or '—' }}</dd>
+            <dt>Rating</dt><dd>{{ (iv.rating ~ ' / 5') if iv.rating is not none else '—' }}</dd>
+            {% if iv.offer_amount %}<dt>Offer amount</dt><dd>{{ iv.offer_amount|money }}</dd>{% endif %}
+        </dl>
+        {% else %}
+            <p class="muted">No interview notes yet. <a href="{{ url_for('edit_application', application_id=application.application_id) }}">Add some.</a></p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

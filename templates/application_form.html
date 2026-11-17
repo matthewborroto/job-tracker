@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} Application{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>{{ action }} Application</h1>
+</div>
+
+<form method="post" class="card form">
+    <h2>Application</h2>
+    <div class="form-grid">
+        <label class="span-2">Job <span class="req">*</span>
+            <select name="job_id" required>
+                <option value="">— choose a job —</option>
+                {% for j in jobs %}
+                    <option value="{{ j.job_id }}" {{ 'selected' if application.job_id == j.job_id }}>{{ j.job_title }} — {{ j.company_name }}</option>
+                {% endfor %}
+            </select>
+            {% if not jobs %}<small class="muted">No jobs yet — <a href="{{ url_for('add_job') }}">add one first</a>.</small>{% endif %}
+        </label>
+        <label>Application date <span class="req">*</span>
+            <input type="date" name="application_date" value="{{ application.application_date or today }}" required>
+        </label>
+        <label>Status <span class="req">*</span>
+            <select name="status" required>
+                {% for s in statuses %}
+                    <option value="{{ s }}" {{ 'selected' if (application.status or 'Applied') == s }}>{{ s }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Resume version
+            <input type="text" name="resume_version" value="{{ application.resume_version or '' }}" maxlength="50" placeholder="v2-developer">
+        </label>
+        <label class="check">
+            <input type="checkbox" name="cover_letter_sent" {{ 'checked' if application.cover_letter_sent }}> Cover letter sent
+        </label>
+    </div>
+
+    <h2>Interview Notes <span class="muted small">(optional, stored as JSON)</span></h2>
+    <div class="form-grid">
+        <label>Interview rounds
+            <input type="number" name="interview_rounds" min="0" value="{{ application.interview_rounds }}">
+        </label>
+        <label>Rating (1–5)
+            <input type="number" name="rating" min="1" max="5" value="{{ application.rating }}">
+        </label>
+        <label class="span-2">Interviewers <small class="muted">comma-separated</small>
+            <input type="text" name="interviewers" value="{{ application.interviewers or '' }}" placeholder="Sarah Johnson, Mike Chen">
+        </label>
+        <label class="span-2">Feedback
+            <textarea name="feedback" rows="3">{{ application.feedback or '' }}</textarea>
+        </label>
+        <label class="span-2">Next steps
+            <input type="text" name="next_steps" value="{{ application.next_steps or '' }}" placeholder="Final round scheduled">
+        </label>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ 'Save Changes' if action == 'Edit' else 'Add Application' }}</button>
+        <a class="btn" href="{{ url_for('application_detail', application_id=application.application_id) if application.application_id else url_for('applications') }}">Cancel</a>
+    </div>
+</form>
+{% endblock %}
