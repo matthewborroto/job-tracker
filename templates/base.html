@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Job Tracker{% endblock %} · Job Application Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+    <div class="container topbar-inner">
+        <a href="{{ url_for('dashboard') }}" class="brand">
+            <span class="brand-mark">JT</span> Job Application Tracker
+        </a>
+        <nav class="nav">
+            {% set active = request.endpoint or '' %}
+            <a href="{{ url_for('dashboard') }}"    class="{{ 'active' if active == 'dashboard' }}">Dashboard</a>
+            <a href="{{ url_for('companies') }}"    class="{{ 'active' if active.startswith(('companies','company')) }}">Companies</a>
+            <a href="{{ url_for('jobs') }}"         class="{{ 'active' if active.startswith('job') and active != 'job_match' }}">Jobs</a>
+            <a href="{{ url_for('applications') }}" class="{{ 'active' if active.startswith('application') }}">Applications</a>
+            <a href="{{ url_for('contacts') }}"     class="{{ 'active' if active.startswith('contact') }}">Contacts</a>
+            <a href="{{ url_for('job_match') }}"    class="{{ 'active' if active == 'job_match' }}">Job Match</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-stack">
+            {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+    <div class="container">Job Application Tracker · Flask + MySQL</div>
+</footer>
+
+<script>
+    // Delete confirmation for every form marked data-confirm
+    document.querySelectorAll('form[data-confirm]').forEach(function (form) {
+        form.addEventListener('submit', function (e) {
+            if (!confirm(form.getAttribute('data-confirm'))) { e.preventDefault(); }
+        });
+    });
+</script>
+</body>
+</html>
