@@ -365,7 +365,7 @@ def get_dashboard_stats():
         by_status[r["status"]] = r["count"]
 
     total = counts["applications"] or 0
-    responded = sum(v for k, v in by_status.items() if k != "Applied")
+    responded = sum(v for k, v in by_status.items() if k not in ("Applied", "Withdrawn"))
     response_rate = round(responded * 100.0 / total, 1) if total else 0.0
 
     active = by_status["Applied"] + by_status["Screening"] + by_status["Interview"]

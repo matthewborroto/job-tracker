@@ -47,7 +47,7 @@ job_tracker/
 ### 2. Clone and install dependencies
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/matthewborroto/job-tracker.git
 cd job_tracker
 python -m venv venv
 

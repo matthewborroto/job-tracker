@@ -85,12 +85,12 @@ CREATE INDEX idx_contacts_company    ON contacts(company_id);
 -- Sample data
 -- =====================================================================
 INSERT INTO companies (company_name, industry, website, city, state, notes) VALUES
-('TechCorp',        'Technology',  'https://www.techcorp.com',   'Miami',         'FL', 'Mid-size software company, strong Python shop.'),
-('DataCo',          'Analytics',   'https://www.dataco.io',      'Austin',        'TX', 'Data consultancy, lots of Tableau work.'),
-('CloudNine Labs',  'Cloud',       'https://cloudnine.dev',      'Seattle',       'WA', 'Startup, fully remote team.'),
-('FinServe Group',  'Finance',     'https://www.finserve.com',   'New York',      'NY', 'Large bank, formal interview process.'),
-('HealthBridge',    'Healthcare',  'https://www.healthbridge.org','Boston',       'MA', 'Non-profit health network.'),
-('GreenGrid Energy','Energy',      'https://greengrid.energy',   'Denver',        'CO', 'Renewable energy analytics.');
+('Cisco',     'Networking',          'https://www.cisco.com',     'San Jose',  'CA', 'Networking and security leader; strong internship and new-grad programs.'),
+('Amazon',    'Technology / Retail', 'https://www.amazon.jobs',   'Seattle',   'WA', 'Huge volume of SDE and data roles; online assessment first.'),
+('Microsoft', 'Technology',          'https://careers.microsoft.com', 'Redmond', 'WA', 'Interested in Azure data and SQL Server teams.'),
+('Sony',      'Electronics / Gaming','https://www.sony.com/en/SonyInfo/Careers/', 'San Mateo', 'CA', 'PlayStation and Sony Electronics both hire software roles.'),
+('Logitech',  'Hardware',            'https://www.logitech.com/careers', 'Newark', 'CA', 'Smaller company; software roles for devices and apps.'),
+('Samsung',   'Electronics',         'https://www.samsung.com/us/careers/', 'Mountain View', 'CA', 'Samsung Research America; data and backend positions.');
 
 INSERT INTO jobs (company_id, job_title, job_type, salary_min, salary_max, job_url, date_posted, requirements) VALUES
 (1, 'Software Developer',      'Full-time',  70000,  90000, 'https://www.techcorp.com/jobs/101', '2025-01-15',
@@ -124,9 +124,9 @@ INSERT INTO applications (job_id, application_date, status, resume_version, cove
 (1, '2025-02-25', 'Applied',   'v3-data',       FALSE, NULL);
 
 INSERT INTO contacts (company_id, contact_name, title, email, phone, linkedin_url, notes) VALUES
-(1, 'Sarah Johnson',  'Engineering Manager',  'sarah.johnson@techcorp.com', '305-555-0101', 'https://linkedin.com/in/sarahjohnson', 'Led my first-round interview.'),
-(1, 'Mike Chen',      'Senior Developer',     'mike.chen@techcorp.com',     '305-555-0102', 'https://linkedin.com/in/mikechen',     'Technical interviewer, very friendly.'),
-(2, 'Priya Patel',    'Recruiter',            'priya@dataco.io',            '512-555-0199', 'https://linkedin.com/in/priyapatel',   'Reached out via LinkedIn.'),
-(3, 'Alex Rivera',    'CTO',                  'alex@cloudnine.dev',         '206-555-0150', 'https://linkedin.com/in/alexrivera',   'Met at a tech meetup.'),
-(4, 'Emily Williams', 'Database Team Lead',   'ewilliams@finserve.com',     '212-555-0177', NULL,                                   'Interviewed me for the DBA role.'),
-(5, 'Tom Alvarez',    'IT Director',          'talvarez@healthbridge.org',  '617-555-0133', 'https://linkedin.com/in/tomalvarez',   'Extended the internship offer.');
+(1, 'Sarah Johnson',  'Engineering Manager',  'sarah.johnson@cisco.com',     '408-555-0101', 'https://linkedin.com/in/sarahjohnson', 'Led my first-round interview.'),
+(1, 'Mike Chen',      'Senior Developer',     'mike.chen@cisco.com',         '408-555-0102', 'https://linkedin.com/in/mikechen',     'Technical interviewer, very friendly.'),
+(2, 'Priya Patel',    'Technical Recruiter',  'priya.patel@amazon.com',      '206-555-0199', 'https://linkedin.com/in/priyapatel',   'Reached out via LinkedIn.'),
+(3, 'Alex Rivera',    'Principal Engineer',   'alex.rivera@microsoft.com',   '425-555-0150', 'https://linkedin.com/in/alexrivera',   'Met at a campus tech talk.'),
+(4, 'Emily Williams', 'Database Team Lead',   'emily.williams@sony.com',     '650-555-0177', NULL,                                   'Interviewed me for the DBA role.'),
+(5, 'Tom Alvarez',    'IT Director',          'tom.alvarez@logitech.com',    '510-555-0133', 'https://linkedin.com/in/tomalvarez',   'Extended the internship offer.');

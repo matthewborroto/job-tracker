@@ -42,7 +42,6 @@ These are the prompts (paraphrased where long) that drove the project:
 
 ## What I Modified
 
-- Changed variable names to match my schema
 - Restyled the color scheme in `style.css` — changed the `--primary` CSS variables
 - Replaced placeholder sample data (TechCorp, DataCo…) in `schema.sql` with
   companies I'm actually interested in, so the demo reflects my real job search.
